@@ -36,16 +36,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return const Posts();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Posts'),
+      ),
+      body: BlocBuilder<PostCubit, PostState>(
+        builder: (context, state) {
+          if (state is PostLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is PostLoaded) {
+            return ListView.builder(
+              itemCount: state.posts.length,
+              itemBuilder: (context, index) {
+                final post = state.posts[index];
+                return ListTile(
+                  title: Text(post.title),
+                  subtitle: Text(post.body),
+                );
+              },
+            );
+          } else if (state is PostError) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else {
+            return const Center(
+              child: Text('Unknown state'),
+            );
+          }
+        },
+      ),
+    );
+
   }
 }
