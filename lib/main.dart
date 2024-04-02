@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:progra_movil_examen_1/post_cubit.dart';
-import 'package:progra_movil_examen_1/posts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,8 +38,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _userRating = 3.0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Posts'),
         actions: [
           IconButton(
-            icon: Icon(Icons.sort,),
+            icon: const Icon(Icons.sort,),
             onPressed: () {
               BlocProvider.of<PostCubit>(context).sortPostsByRating();
             },
@@ -81,8 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {
-                      // Aquí puedes actualizar la calificación del post
-                      // Utiliza BlocProvider.of<PostCubit>(context).ratePost(post.id, rating.toInt());
                     },
                   ),
                 );

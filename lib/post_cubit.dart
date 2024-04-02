@@ -9,8 +9,7 @@ class PostCubit extends Cubit<PostState> {
   List<Posts> _posts = []; // Lista de posts
 
   PostCubit() : super(PostInitial());
-
-  // Método para obtener los posts desde la URL
+  
   Future<void> fetchPosts() async {
     try {
       emit(PostLoading());
@@ -19,9 +18,9 @@ class PostCubit extends Cubit<PostState> {
       final List<Posts> posts =
           (response.data as List).map((json) => Posts.fromJson(json)).toList();
       _posts = posts; // Almacenar los posts en la lista local
-      emit(PostLoaded(posts)); // Emitir el estado de carga exitosa
+      emit(PostLoaded(posts));
     } catch (e) {
-      emit(const PostError('Failed to fetch posts.')); // Emitir el estado de error
+      emit(const PostError('Failed to fetch posts.'));
     }
   }
 
@@ -30,13 +29,12 @@ class PostCubit extends Cubit<PostState> {
     final index = _posts.indexWhere((post) => post.id == postId);
     if (index != -1) {
       _posts[index].rating = rating; // Actualizar la calificación del post
-      emit(PostLoaded(List.of(_posts))); // Emitir el estado actualizado
+      emit(PostLoaded(List.of(_posts)));
     }
   }
 
-  // Método para ordenar los posts por la cantidad de estrellas
   void sortPostsByRating() {
     _posts.sort((a, b) => b.rating.compareTo(a.rating)); // Ordenar los posts por calificación
-    emit(PostLoaded(List.of(_posts))); // Emitir el estado actualizado con los posts ordenados
+    emit(PostLoaded(List.of(_posts)));
   }
 }
