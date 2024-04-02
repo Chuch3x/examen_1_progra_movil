@@ -21,8 +21,11 @@ class MyApp extends StatelessWidget {
         ),
         home: BlocProvider(
           create: (context) => PostCubit()..fetchPosts(),
-          child: MyHomePage(title: 'POSTS',),
-          ));
+          child: const MyHomePage(
+            title: 'POSTS',
+          ),
+        )
+      );
   }
 }
 
@@ -36,7 +39,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 return ListTile(
                   title: Text(post.title),
                   subtitle: Text(post.body),
+                  trailing: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.star_border),
+                      Icon(Icons.star_border),
+                      Icon(Icons.star_border),
+                      Icon(Icons.star_border),
+                      Icon(Icons.star_border),
+                    ],
+                  ),
                 );
               },
             );
@@ -66,12 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           } else {
             return const Center(
-              child: Text('Unknown state'),
+              child: Text('Estado Desconocido'),
             );
           }
         },
       ),
     );
-
   }
 }

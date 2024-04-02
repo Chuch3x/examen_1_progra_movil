@@ -11,8 +11,10 @@ class PostCubit extends Cubit<PostState> {
   Future<void> fetchPosts() async {
     try {
       emit(PostLoading());
-      final response = await Dio().get('https://jsonplaceholder.typicode.com/posts');
-      final List<Posts> posts = (response.data as List).map((json) => Posts.fromJson(json)).toList();
+      final response =
+          await Dio().get('https://jsonplaceholder.typicode.com/posts');
+      final List<Posts> posts =
+          (response.data as List).map((json) => Posts.fromJson(json)).toList();
       emit(PostLoaded(posts));
     } catch (e) {
       emit(const PostError('Failed to fetch posts.'));

@@ -4,7 +4,11 @@ class Posts {
   final String title;
   final String body;
 
-  Posts({required this.id, required this.userId, required this.title, required this.body});
+  Posts(
+      {required this.id,
+      required this.userId,
+      required this.title,
+      required this.body});
 
   factory Posts.fromJson(Map<String, dynamic> json) {
     return Posts(
