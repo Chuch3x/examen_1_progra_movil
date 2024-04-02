@@ -1,52 +1,17 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+class Posts {
+  final int id;
+  final int userId;
+  final String title;
+  final String body;
 
-class Posts extends StatefulWidget {
-  const Posts({super.key});
+  Posts({required this.id, required this.userId, required this.title, required this.body});
 
-  @override
-  State<Posts> createState() => _PostsState();
-}
-
-class _PostsState extends State<Posts> {
-  late List<dynamic> _posts;
-  
-  @override
-  void initState() {
-    super.initState();
-    _fetchPosts();
-  }
-
-  Future<void> _fetchPosts() async {
-    try {
-      Response response = await Dio().get('https://jsonplaceholder.typicode.com/posts');
-      setState(() {
-        _posts = response.data;
-      });
-    } catch (e) {
-      print('Error fetching posts: $e');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Posts List'),
-      ),
-      body: _posts != null
-          ? ListView.builder(
-              itemCount: _posts.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_posts[index]['title']),
-                  subtitle: Text(_posts[index]['body']),
-                );
-              },
-            )
-          : Center(
-              child: CircularProgressIndicator(),
-            ),
+  factory Posts.fromJson(Map<String, dynamic> json) {
+    return Posts(
+      id: json['id'],
+      userId: json['userId'],
+      title: json['title'],
+      body: json['body'],
     );
   }
 }
