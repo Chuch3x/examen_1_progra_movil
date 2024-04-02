@@ -3,7 +3,7 @@ class Posts {
   final int userId;
   final String title;
   final String body;
-  final int rating;
+  int rating;
 
   Posts(
       {required this.id,

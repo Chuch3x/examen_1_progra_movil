@@ -46,6 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sort,),
+            onPressed: () {
+              BlocProvider.of<PostCubit>(context).sortPostsByRating();
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
