@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:progra_movil_examen_1/post_cubit.dart';
 import 'package:progra_movil_examen_1/posts.dart';
 
@@ -8,29 +9,28 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: BlocProvider(
+        create: (context) => PostCubit()..fetchPosts(),
+        child: const MyHomePage(
+          title: 'POSTS',
         ),
-        home: BlocProvider(
-          create: (context) => PostCubit()..fetchPosts(),
-          child: const MyHomePage(
-            title: 'POSTS',
-          ),
-        )
-      );
+      ),
+    );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -39,6 +39,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  double _userRating = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,15 +61,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 return ListTile(
                   title: Text(post.title),
                   subtitle: Text(post.body),
-                  trailing: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.star_border),
-                      Icon(Icons.star_border),
-                      Icon(Icons.star_border),
-                      Icon(Icons.star_border),
-                      Icon(Icons.star_border),
-                    ],
+                  trailing: RatingBar.builder(
+                    initialRating: post.rating.toDouble(),
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: false,
+                    itemCount: 5,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      // Aquí puedes actualizar la calificación del post
+                      // Utiliza BlocProvider.of<PostCubit>(context).ratePost(post.id, rating.toInt());
+                    },
                   ),
                 );
               },
